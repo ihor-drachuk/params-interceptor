@@ -5,6 +5,7 @@
 #include <QProcessEnvironment>
 #include <QDir>
 #include <QStandardPaths>
+#include <QDateTime>
 #include <cstdio>
 
 int main(int argc, char *argv[])
@@ -31,8 +32,9 @@ int main(int argc, char *argv[])
 
     stream << QString("\n");
     stream << QString("--------------------------------------------------\n");
+    stream << QDateTime::currentDateTime().toString() << "\n";
     stream << QString("\n");
-    stream << QFileInfo(targetName).absoluteFilePath().replace("/", "\\");
+    stream << "\"" << QFileInfo(targetName).absoluteFilePath().replace("/", "\\") << "\"";
     for (int i = 1; i < argc; i++)
         stream << " \"" << QString(argv[i]).replace("\"", "\\\"").toUtf8() << "\"";
     stream << QString("\n");
