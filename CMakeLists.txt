@@ -14,6 +14,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt5 COMPONENTS Core REQUIRED)
 
 add_executable(interceptor src/main.cpp)
+set_property(TARGET interceptor PROPERTY
+  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 target_link_libraries(interceptor PRIVATE Qt5::Core)
 
 add_executable(testee src/main-testee.cpp)
