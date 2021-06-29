@@ -61,20 +61,9 @@ int main(int argc, char *argv[])
         params.append(argv[i]);
 
     QProcess proc;
+    proc.setProcessChannelMode(QProcess::ForwardedChannels);
     proc.setProcessEnvironment(QProcessEnvironment::systemEnvironment());
     proc.setWorkingDirectory(currentDir);
-
-    QObject::connect(&proc, &QProcess::readyReadStandardOutput, &app, [&](){
-        auto buf = proc.readAllStandardOutput();
-        fwrite(buf.constData(), 1, buf.size(), stdout);
-        fflush(stdout);
-    });
-
-    QObject::connect(&proc, &QProcess::readyReadStandardError, &app, [&](){
-        auto buf = proc.readAllStandardError();
-        fwrite(buf.constData(), 1, buf.size(), stderr);
-        fflush(stderr);
-    });
 
     proc.start(program, params);
 
