@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
 
     QProcess proc;
     proc.setProcessChannelMode(QProcess::ForwardedChannels);
+    proc.setInputChannelMode(QProcess::ForwardedInputChannel);
     proc.setProcessEnvironment(QProcessEnvironment::systemEnvironment());
     proc.setWorkingDirectory(currentDir);
 
