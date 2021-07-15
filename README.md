@@ -10,14 +10,17 @@ Instructions:
 You can override logs dir and file name by environment variables `PARAMS_INTERCEPTOR_LOGS_DIR` and `PARAMS_INTERCEPTOR_LOGS_NAME`.
 
 ---
-Features list:
+### Features list & future plans:
 - [x] Intercepting & logging
   - [x] Parameters
   - [x] Working dir
   - [x] Env. variables
 - [ ] Configuration
   - [x] Logs location
+  - [ ] Selection of what to log
   - [ ] Auto-modify params passed
     - [ ] Add
     - [ ] Replace
     - [ ] Remove
+  - [ ] Auto-handle data in params
+    - [ ] Log files content which are specified by parameter
