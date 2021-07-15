@@ -8,3 +8,16 @@ Instructions:
 3. Use your software as always; expect "interceptor-*.txt" logs on Desktop
 
 You can override logs dir and file name by environment variables `PARAMS_INTERCEPTOR_LOGS_DIR` and `PARAMS_INTERCEPTOR_LOGS_NAME`.
+
+---
+Features list:
+- [x] Intercepting & logging
+  - [x] Parameters
+  - [x] Working dir
+  - [x] Env. variables
+- [ ] Configuration
+  - [x] Logs location
+  - [ ] Auto-modify params passed
+    - [ ] Add
+    - [ ] Replace
+    - [ ] Remove
