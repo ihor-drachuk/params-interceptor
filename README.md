@@ -17,10 +17,11 @@ You can override logs dir and file name by environment variables `PARAMS_INTERCE
   - [x] Env. variables
 - [ ] Configuration
   - [x] Logs location
+  - [ ] Better handling of multiple instances 
   - [ ] Selection of what to log
   - [ ] Auto-modify params passed
     - [ ] Add
     - [ ] Replace
     - [ ] Remove
   - [ ] Auto-handle data in params
-    - [ ] Log files content which are specified by parameter
+    - [ ] Log content of files which are specified by parameters
