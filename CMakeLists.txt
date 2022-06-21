@@ -8,15 +8,14 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 find_package(Qt5 COMPONENTS Core REQUIRED)
 
 add_executable(interceptor src/main.cpp)
+target_compile_features(interceptor PRIVATE cxx_std_11)
 target_link_libraries(interceptor PRIVATE Qt5::Core)
 
 add_executable(testee src/main-testee.cpp)
+target_compile_features(testee PRIVATE cxx_std_11)
 set_property(TARGET testee PROPERTY
   MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
