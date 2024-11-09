@@ -15,6 +15,7 @@ You can override logs dir and file name by environment variables `PARAMS_INTERCE
   - [x] Parameters
   - [x] Working dir
   - [x] Env. variables
+  - [ ] Unicode support
 - [ ] Configuration
   - [x] Logs location
   - [ ] Better handling of multiple instances 
