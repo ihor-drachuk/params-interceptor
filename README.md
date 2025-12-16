@@ -10,19 +10,36 @@ Instructions:
 You can override logs dir and file name by environment variables `PARAMS_INTERCEPTOR_LOGS_DIR` and `PARAMS_INTERCEPTOR_LOGS_NAME`.
 
 ---
+### Configuration
+
+The interceptor can be configured via environment variables:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PARAMS_INTERCEPTOR_LOGS_DIR` | Override logs directory | Desktop |
+| `PARAMS_INTERCEPTOR_LOGS_NAME` | Override logs filename | `interceptor-{app}-{timestamp}-{id}.txt` |
+| `PARAMS_INTERCEPTOR_LOG_PARAMS` | Set to `0` to disable logging parameters | Enabled |
+| `PARAMS_INTERCEPTOR_LOG_WORKDIR` | Set to `0` to disable logging working directory | Enabled |
+| `PARAMS_INTERCEPTOR_LOG_ENV` | Set to `0` to disable logging environment variables | Enabled |
+| `PARAMS_INTERCEPTOR_LOG_FILES` | Set to `1` to log content of files from params | Disabled |
+| `PARAMS_INTERCEPTOR_ADD_PARAMS` | Parameters to add (separated by `\|`) | - |
+| `PARAMS_INTERCEPTOR_REPLACE_PARAMS` | Parameters to replace (format: `old1=new1\|old2=new2`) | - |
+| `PARAMS_INTERCEPTOR_REMOVE_PARAMS` | Parameters to remove (separated by `\|`) | - |
+
+---
 ### Features list & future plans:
 - [x] Intercepting & logging
   - [x] Parameters
   - [x] Working dir
   - [x] Env. variables
-  - [ ] Unicode support
-- [ ] Configuration
+  - [x] Unicode support
+- [x] Configuration
   - [x] Logs location
-  - [ ] Better handling of multiple instances 
-  - [ ] Selection of what to log
-  - [ ] Auto-modify params passed
-    - [ ] Add
-    - [ ] Replace
-    - [ ] Remove
-  - [ ] Auto-handle data in params
-    - [ ] Log content of files which are specified by parameters
+  - [x] Better handling of multiple instances
+  - [x] Selection of what to log
+  - [x] Auto-modify params passed
+    - [x] Add
+    - [x] Replace
+    - [x] Remove
+  - [x] Auto-handle data in params
+    - [x] Log content of files which are specified by parameters
