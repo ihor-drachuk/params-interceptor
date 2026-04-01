@@ -8,11 +8,11 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt6 COMPONENTS Core REQUIRED)
 
 add_executable(interceptor src/main.cpp)
-target_compile_features(interceptor PRIVATE cxx_std_11)
-target_link_libraries(interceptor PRIVATE Qt5::Core)
+target_compile_features(interceptor PRIVATE cxx_std_17)
+target_link_libraries(interceptor PRIVATE Qt6::Core)
 
 add_executable(testee src/main-testee.cpp)
 target_compile_features(testee PRIVATE cxx_std_11)

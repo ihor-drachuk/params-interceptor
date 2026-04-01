@@ -20,7 +20,7 @@
 // PARAMS_INTERCEPTOR_REPLACE_PARAMS - Params to replace (format: old1=new1|old2=new2)
 // PARAMS_INTERCEPTOR_REMOVE_PARAMS - Params to remove (separated by |)
 
-bool isEnvEnabled(const QString& envName, bool defaultValue = true)
+bool isEnvEnabled(const QString& envName, bool defaultValue)
 {
     auto value = QProcessEnvironment::systemEnvironment().value(envName);
     if (value.isEmpty())
@@ -28,20 +28,12 @@ bool isEnvEnabled(const QString& envName, bool defaultValue = true)
     return value != "0" && value.toLower() != "false";
 }
 
-bool isEnvEnabledOpt(const QString& envName, bool defaultValue = false)
-{
-    auto value = QProcessEnvironment::systemEnvironment().value(envName);
-    if (value.isEmpty())
-        return defaultValue;
-    return value == "1" || value.toLower() == "true";
-}
-
 QStringList parseEnvList(const QString& envName)
 {
     auto value = QProcessEnvironment::systemEnvironment().value(envName);
     if (value.isEmpty())
         return QStringList();
-    return value.split('|', QString::SkipEmptyParts);
+    return value.split('|', Qt::SkipEmptyParts);
 }
 
 QMap<QString, QString> parseEnvMap(const QString& envName)
@@ -51,7 +43,7 @@ QMap<QString, QString> parseEnvMap(const QString& envName)
     if (value.isEmpty())
         return result;
 
-    auto pairs = value.split('|', QString::SkipEmptyParts);
+    auto pairs = value.split('|', Qt::SkipEmptyParts);
     for (const auto& pair : pairs) {
         int idx = pair.indexOf('=');
         if (idx > 0) {
@@ -82,7 +74,6 @@ void logFileContent(QTextStream& stream, const QString& filePath)
 
     stream << QString("\n--- File content of \"%1\" ---\n").arg(filePath);
     QTextStream fileStream(&file);
-    fileStream.setCodec("UTF-8");
     stream << fileStream.readAll();
     stream << QString("\n--- End of file \"%1\" ---\n").arg(filePath);
 }
@@ -116,13 +107,13 @@ int main(int argc, char *argv[])
     file.open(QIODevice::WriteOnly | QIODevice::Append);
 
     QTextStream stream(&file);
-    stream.setCodec("UTF-8");  // Unicode support
+    // Qt6 uses UTF-8 by default for QTextStream
 
     // Logging configuration
-    bool logParams = isEnvEnabled("PARAMS_INTERCEPTOR_LOG_PARAMS");
-    bool logWorkDir = isEnvEnabled("PARAMS_INTERCEPTOR_LOG_WORKDIR");
-    bool logEnv = isEnvEnabled("PARAMS_INTERCEPTOR_LOG_ENV");
-    bool logFiles = isEnvEnabledOpt("PARAMS_INTERCEPTOR_LOG_FILES");
+    bool logParams = isEnvEnabled("PARAMS_INTERCEPTOR_LOG_PARAMS", true);
+    bool logWorkDir = isEnvEnabled("PARAMS_INTERCEPTOR_LOG_WORKDIR", true);
+    bool logEnv = isEnvEnabled("PARAMS_INTERCEPTOR_LOG_ENV", true);
+    bool logFiles = isEnvEnabled("PARAMS_INTERCEPTOR_LOG_FILES", false);
 
     // Params modification configuration
     QStringList addParams = parseEnvList("PARAMS_INTERCEPTOR_ADD_PARAMS");
@@ -157,7 +148,7 @@ int main(int argc, char *argv[])
         stream << "\n";
         stream << "Environment variables:\n";
         auto envs = QProcessEnvironment::systemEnvironment().toStringList();
-        for (const auto& x : qAsConst(envs))
+        for (const auto& x : std::as_const(envs))
             stream << "    " << x << "\n";
     }
 
@@ -167,15 +158,9 @@ int main(int argc, char *argv[])
         stream << "=== Files content from parameters ===\n";
         for (int i = 1; i < args.size(); i++) {
             QString param = args.at(i);
-            // Check if parameter looks like a file path
             QFileInfo fi(param);
             if (fi.exists() && fi.isFile()) {
-                logFileContent(stream, param);
-            }
-            // Also try as relative path from working directory
-            QFileInfo fiRel(QDir(currentDir), param);
-            if (fiRel.exists() && fiRel.isFile() && fiRel.absoluteFilePath() != fi.absoluteFilePath()) {
-                logFileContent(stream, fiRel.absoluteFilePath());
+                logFileContent(stream, fi.absoluteFilePath());
             }
         }
     }
